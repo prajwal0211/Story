@@ -1,1 +1,41 @@
 It was the spring of hope, it was the winter of despair.
+
+
+
+const express = require('express');
+const app = express();
+app.use(express.static('public'));
+app.get('index.html', function(req,res){
+ res.sendFile(__dirname + "/" + "public/index.html");
+});
+app.get('/process_get',function(req ,res){
+ response = {
+ first_name: req.query.first_name,
+ last_name: req.query.last_name
+ };
+ console.log(response);
+ res.end(JSON.stringify(response));
+});
+const server = app.listen(3000, function(){
+ const host = server.address().address
+ const port = server.address().port
+ console.log("Server Listening at http://%s:%s", host,port);
+}); 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+<body>
+<form action="http://127.0.0.1:3000/process_get" method="GET">
+First Name:<input type="text" name="first_name"><br>
+Last Name: <input type="text" name="last_name"><br>
+ <button type="submit">Send</button>
+</form>
+</body>
+</html> 
+
